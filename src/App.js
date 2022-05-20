@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { createBrowserHistory } from "history";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import GuardedRoute from "./router/GuardedRoute";
+
+import Landing from './pages/Landing';
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Products from "./pages/Products";
+
+export const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <HistoryRouter history={history}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="products" auth={true} element={<Products />} />
+        </Routes>
+      </HistoryRouter>
+
     </div>
   );
 }

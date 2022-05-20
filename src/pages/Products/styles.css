@@ -1,0 +1,80 @@
+#title {
+  font-size: 3rem;
+  font-weight: bold;
+  background-image: linear-gradient(45deg, #ddd765, #af4261);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.numberOfProducts {
+  font-size: 14px;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.modalInput {
+  width: 20rem;
+  height: 1rem;
+  font-size: 0.8rem;
+  background-color: #f2f2f2;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.modalButton {
+  width: 10rem;
+  height: 2rem;
+  background: linear-gradient(90deg, rgba(209,55,105,1) 0%, rgba(227,88,103,1) 49%, rgba(234,105,103,1) 100%);
+}
+
+.externalLink {
+  cursor: pointer;
+}
+
+.loadMore {
+  font-size: 18px;
+  color: #fff;
+  background-color: #ddd765;
+}
+
+.show {
+  display: flex;
+  opacity: 1;
+}
+
+.hide {
+  display: none;
+  opacity: 0;
+}
+
+#map { 
+  width: 100%;
+  height: 500px;
+  margin-bottom: 2rem; 
+}
+
+#toasterWrapper {
+  transform: translate(50%, 50%);
+}
+
+#warningBox {
+  cursor: pointer;
+}
+
+button:disabled,
+button[disabled] {
+  background: #bbbbbb;
+  border: 1px solid #bbbbbb;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 640px) {
+  .modalInput {
+    width: 15rem;
+  }
+}
+
+
