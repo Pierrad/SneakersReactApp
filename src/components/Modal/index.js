@@ -19,11 +19,15 @@ const Modal = ({ children, title, isOpen, onClose }) => {
   return (
     <Portal wrapperId="portal-modal-container">
       <div className="customModal">
-        <button onClick={onClose} className="close-btn">
-          Close
-        </button>
-        <div>{title}</div>
-        <div className="customModalContent">{children}</div>
+        <div className="customModalContent">
+          <div className="customModalContentHeader">
+            <div className="customModalContentTitle">{title}</div>
+            <button onClick={onClose} className="customModalContentButton">
+              X
+            </button>
+          </div>
+          {children}
+        </div>
       </div>
     </Portal>
   )

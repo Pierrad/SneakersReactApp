@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 
 import Product from "../../components/Product"
 import Modal from "../../components/Modal"
@@ -6,7 +6,7 @@ import Modal from "../../components/Modal"
 import useUser from "../../hooks/useUser"
 import useProducts from "../../hooks/useProducts"
 
-import ExternalLink from '../../assets/images/external_link.svg'
+import { modifyProduct } from "../../services/Product"
 
 import "./styles.css"
 
@@ -15,8 +15,21 @@ const Products = (props) => {
   const products = useProducts()
 
   const [focusProduct, setFocusProduct] = useState(null)
+  const [name, setName] = useState("")
+  const [brand, setBrand] = useState("")
+  const [price, setPrice] = useState("")
+  const [x, setX] = useState("")
+  const [y, setY] = useState("")
   const [isProductModalOpen, setIsProductModalOpen] = useState(false)
-  const [isGeolocalizationModalOpen, setIsGeolocalizationModalOpen] = useState(false)
+  const [isGeolocalizationModalOpen, setIsGeolocalizationModalOpen] =
+    useState(false)
+
+  if (!user) return null
+  if (!products) return null
+
+  const handleModifyProduct = () => {
+    modifyProduct({ ...focusProduct, name, brand, price })
+  }
 
   const renderProductModal = () => (
     <Modal
@@ -27,35 +40,29 @@ const Products = (props) => {
       <form className="modalInputs d-flex flex-column">
         <input
           className="modalInput mb-3 p-3 border-0 rounded"
-          id="modalNameInput"
           name="name"
-          value={focusProduct.name}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <input
           className="modalInput mb-3 p-3 border-0 rounded"
-          id="modalBrandInput"
           name="brand"
-          value={focusProduct.brand}
+          value={brand}
+          onChange={(e) => setBrand(e.target.value)}
         />
         <input
           className="modalInput mb-3 p-3 border-0 rounded"
-          id="modalPriceInput"
           name="price"
-          value={focusProduct.price}
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
         />
         <button
-          className="modalButton hide rounded border-0 text-white"
-          id="modalSubmit"
+          className="modalButton rounded border-0 text-white"
+          onClick={handleModifyProduct}
         >
           Modifier
         </button>
       </form>
-      <img
-        src={ExternalLink}
-        alt="External link logo"
-        id="modalExternalLink"
-        className="externalLink position-absolute bottom-0 end-0"
-      />
     </Modal>
   )
 
@@ -63,20 +70,63 @@ const Products = (props) => {
     <Modal
       onClose={() => setIsGeolocalizationModalOpen(false)}
       isOpen={isGeolocalizationModalOpen}
+      title="Coordonnées du produit"
     >
-      
+      <div class="mb-2">
+        <input
+          id="latitude"
+          type="text"
+          name="latitude"
+          placeholder="Latitude"
+          class="border border-secondary p-3 rounded"
+          aria-describedby="validationLatitudeFeedback"
+          value={x}
+          onChange={(e) => setX(e.target.value)}
+        />
+        <div id="validationLatitudeFeedback" class="invalid-feedback">
+          Veuillez entrer une latitude valide.
+        </div>
+      </div>
+      <div>
+        <input
+          id="longitude"
+          type="text"
+          name="longitude"
+          placeholder="Longitude"
+          class="border border-secondary p-3 rounded"
+          aria-describedby="validationLongitudeFeedback"
+          value={y}
+          onChange={(e) => setY(e.target.value)}
+        />
+        <div id="validationLongitudeFeedback" class="invalid-feedback">
+          Veuillez entrer une longitude valide.
+        </div>
+      </div>
+      <hr />
+      <button class="modalButton rounded border-0 text-white">
+        Position actuelle
+      </button>
+      <button type="button" class="rounded border-1">
+        Save localization
+      </button>
     </Modal>
   )
-  
 
   const handleProductModal = (id) => {
+    const selectedProduct = products.find((product) => product.id === id)
+    setFocusProduct(selectedProduct)
+    setName(selectedProduct.name)
+    setBrand(selectedProduct.brand)
+    setPrice(selectedProduct.price)
     setIsProductModalOpen(true)
-    setFocusProduct(products.filter(product => product.id === id)[0])
   }
 
   const handleGeolocalizationModal = (id) => {
+    const selectedProduct = products.find((product) => product.id === id)
+    setFocusProduct(selectedProduct)
+    setX(selectedProduct.x)
+    setY(selectedProduct.y)
     setIsGeolocalizationModalOpen(true)
-    setFocusProduct(products.filter(product => product.id === id)[0])
   }
 
   return (
@@ -103,7 +153,7 @@ const Products = (props) => {
       >
         Voir plus...
       </button>
-      <div id="map"></div>
+      {/* <div id="map"></div> */}
       {isProductModalOpen && renderProductModal()}
       {isGeolocalizationModalOpen && renderGeolocalizationModal()}
     </div>

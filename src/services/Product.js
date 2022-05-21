@@ -23,6 +23,7 @@ export const getOneProduct = (productId) => {
 }
 
 export const modifyProduct = (prod) => {
+  console.log(prod)
   callAPI("POST", `products/${prod.id}`, {
     content: {
       name: prod.name,
