@@ -1,12 +1,14 @@
 import React from 'react';
-import { Route, Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
-const GuardedRoute = ({ component: Component, auth, ...rest }) => (
-    <Route {...rest} render={(props) => (
-        auth === true
-            ? <Component {...props} />
-            : <Navigate replace to='/login' />
-    )} />
-)
+import useUser from '../hooks/useUser';
+
+const GuardedRoute = ({ Component }) => {
+    const user = useUser();
+
+    console.log(user)
+
+    return user !== null ? <Component /> : <Navigate to="/login" />;
+}
 
 export default GuardedRoute;

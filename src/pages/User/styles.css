@@ -1,0 +1,13 @@
+.card {
+  background-color: white;
+  width: 30rem;
+}
+
+.infoItemTitle {
+  color: #B9BAC2;
+}
+
+.infoItemText {
+  color: black;
+  width: 10rem;
+}
